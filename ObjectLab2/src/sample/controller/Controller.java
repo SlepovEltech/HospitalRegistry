@@ -141,6 +141,12 @@ public class Controller {
     private Button makePdfPatient;
 
     @FXML
+    private Button makeHtmlDoctor;
+
+    @FXML
+    private Button makeHtmlPatient;
+
+    @FXML
     void initialize() {
         loadDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -229,18 +235,34 @@ public class Controller {
         makePdfDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-               // PdfReport report = new PdfReport(doctorList, null, "DoctorDataPdf");
-                HtmlReport report = new HtmlReport(doctorList, null, "DoctorDataPdf");
-                report.saveHtml();
+                PdfReport report = new PdfReport(doctorList, null, "../DataSrc/DoctorDataPdf");
+                report.pdfSave();
                 getAlert("PDF", "Отчет построен");
             }
         });
         makePdfPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                PdfReport report = new PdfReport(null, patientList, "PatientDataPdf");
+                PdfReport report = new PdfReport(null, patientList, "../DataSrc/PatientDataPdf");
                 report.pdfSave();
                 getAlert("PDF", "Отчет построен");
+            }
+        });
+
+        makeHtmlDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                HtmlReport report = new HtmlReport(doctorList, null, "../DataSrc/DoctorDataHtml");
+                report.saveHtml();
+                getAlert("HTML", "Отчет построен");
+            }
+        });
+        makeHtmlPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                HtmlReport report = new HtmlReport(null, patientList, "../DataSrc/PatientDataHtml");
+                report.saveHtml();
+                getAlert("HTML", "Отчет построен");
             }
         });
 
