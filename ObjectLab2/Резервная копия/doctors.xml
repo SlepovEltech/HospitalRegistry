@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<doctorList>
+<doctor id="1" middleName="Артемовна" name="Наталья" note="---" specialty="Хирург" surname="Ремизова"/>
+<doctor id="2" middleName="Геннадиевич" name="Никита" note="Отсутствует" specialty="Невролог" surname="Чигиркин"/>
+<doctor id="3" middleName="Мартыновна" name="Александра" note="Отсутствует" specialty="Нарколог" surname="Золотухина"/>
+<doctor id="4" middleName="Юриевич" name="Семён" note="Отсутствует" specialty="Дерматолог" surname="Посохов"/>
+<doctor id="5" middleName="Евстигнеевна" name="Розалия" note="-" specialty="Анастезиолог" surname="Ястремская"/>
+<doctor id="6" middleName="Казимирович" name="Алексей" note="Отсутствует" specialty="Офтальмолог" surname="Горев"/>
+<doctor id="7" middleName="Михеевна" name="Вера" note="Отсутствует" specialty="Терапвет" surname="Сюсина"/>
+<doctor id="8" middleName="Денисович" name="Сергей" note="Отсутствует" specialty="Хирург" surname="Гущин"/>
+<doctor id="9" middleName="Захаровна" name="Ксения" note="Отсутствует" specialty="Невролог" surname="Поветникова"/>
+<doctor id="10" middleName="Артемович" name="Виктор" note="Отсутствует" specialty="Нарколог" surname="Бабченко"/>
+<doctor id="11" middleName="Сидоровна" name="Алина" note="Отсутствует" specialty="Дерматолог" surname="Дешевых"/>
+<doctor id="12" middleName="Игоревич" name="Алексей" note="Отсутствует" specialty="Анастезиолог" surname="Петров"/>
+<doctor id="13" middleName="Григоргиевна" name="Галина" note="Отсутствует" specialty="Офтальмолог" surname="Карпенцева"/>
+<doctor id="14" middleName="Александрович" name="Никита" note="Отсутствует" specialty="Терапвет" surname="Килик"/>
+<doctor id="15" middleName="Игоревна" name="Вера" note="Отсутствует" specialty="Хирург" surname="Посохов"/>
+<doctor id="16" middleName="Иванович" name="Алексей" note="Отсутствует" specialty="Невролог" surname="Коновалов"/>
+<doctor id="17" middleName="Ивановна" name="Наталья" note="Отсутствует" specialty="Нарколог" surname="Рыбакова"/>
+<doctor id="18" middleName="Петрович" name="Виктор" note="Отсутствует" specialty="Дерматолог" surname="Милютин"/>
+<doctor id="19" middleName="Сергеевна" name="Надежда" note="Отсутствует" specialty="Терапевт" surname="Кирсанова"/>
+<doctor id="20" middleName="Эдуардович" name="Артем" note="Нет" specialty="Нейрохирург" surname="Слепов"/>
+</doctorList>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #FF5722 #FF5722;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.Controller">
+   <children>
+      <Label layoutX="277.0" layoutY="1.0" text="Поликлиника №1" textFill="#f5f5f5">
+         <font>
+            <Font name="Apple Braille Pinpoint 8 Dot" size="40.0" />
+         </font>
+      </Label>
+      <TabPane layoutX="-9.0" layoutY="43.0" prefHeight="506.0" prefWidth="900.0" style="-fx-background-color: #000000;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+        <tabs>
+          <Tab text="Врачи">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="512.0" prefWidth="901.0" style="-fx-background-color: #FFFFFF;">
+                     <children>
+                        <TableView id="doctorList" fx:id="doctorList" layoutY="41.0" prefHeight="401.0" prefWidth="900.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                          <columns>
+                              <TableColumn id="doctorId" fx:id="doctorId" prefWidth="60.97947549819946" text="№" />
+                            <TableColumn fx:id="docSurname" prefWidth="160.70262145996094" text="Фамилия" />
+                            <TableColumn fx:id="docName" prefWidth="152.97900390625" text="Имя" />
+                              <TableColumn fx:id="docMiddleName" prefWidth="127.25534057617188" text="Отчество" />
+                              <TableColumn fx:id="docSpecialty" prefWidth="151.74462890625" text="Специализация" />
+                              <TableColumn fx:id="docNote" prefWidth="240.74462890625" text="Примечание" />
+                          </columns>
+                        </TableView>
+                        <ButtonBar layoutX="-6.0" prefHeight="40.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+                          <buttons>
+                              <Button id="addDoctor" fx:id="loadDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Загрузить из файла" />
+                              <Button fx:id="saveDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="188.0" text="Сохранить изменения" />
+                              <Button id="addDoctor" fx:id="deleteDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Удалить врача" />
+                              <Button id="makePdfDoctor" fx:id="makePdfDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
+                              <Button id="makeHtmlDoctor" fx:id="makeHtmlDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
+                          </buttons>
+                        </ButtonBar>
+                        <Button id="addDoctor" fx:id="addDoctor" contentDisplay="CENTER" layoutX="786.0" layoutY="445.0" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Добавить врача" AnchorPane.topAnchor="445.0" />
+                        <TextField fx:id="addDocSurname" layoutX="5.0" layoutY="444.0" prefHeight="27.0" prefWidth="142.0" promptText="Фамилия" />
+                        <TextField fx:id="addDocName" layoutX="146.0" layoutY="444.0" prefHeight="27.0" prefWidth="145.0" promptText="Имя" AnchorPane.leftAnchor="146.0" />
+                        <TextField fx:id="addDocMiddle" layoutX="290.0" layoutY="444.0" prefHeight="27.0" prefWidth="146.0" promptText="Отчество" />
+                        <TextField fx:id="addDocSpecialty" layoutX="435.0" layoutY="444.0" prefHeight="27.0" prefWidth="145.0" promptText="Специализация" />
+                        <TextField fx:id="addDocNote" layoutX="579.0" layoutY="444.0" prefHeight="27.0" prefWidth="205.0" promptText="Примечание" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab id="patienList" text="Пациенты">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="562.0" prefWidth="874.0" style="-fx-background-color: #FFFFFF;">
+                     <children>
+                        <TableView fx:id="patientList" layoutY="43.0" prefHeight="401.0" prefWidth="900.0" AnchorPane.bottomAnchor="29.0" AnchorPane.topAnchor="43.0">
+                           <columns>
+                              <TableColumn fx:id="patientId" prefWidth="69.48949003219604" text="№" />
+                              <TableColumn fx:id="patientSurname" prefWidth="160.18093872070312" text="Фамилия" />
+                              <TableColumn fx:id="patientName" prefWidth="140.84349060058594" text="Имя" />
+                              <TableColumn fx:id="patientMiddleName" prefWidth="135.156494140625" text="Отчество" />
+                              <TableColumn fx:id="patientDiagnos" prefWidth="145.35983276367188" text="Диагноз" />
+                              <TableColumn fx:id="patientNote" prefWidth="240.35983276367188" text="Примечание" />
+                           </columns>
+                        </TableView>
+                        <ButtonBar layoutX="1.0" prefHeight="40.0" prefWidth="553.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="359.0">
+                           <buttons>
+                              <Button fx:id="loadPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Загрузить из файла" />
+                              <Button fx:id="savePatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="188.0" text="Сохранить изменения" />
+                              <Button fx:id="deletePatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Удалить пациента" />
+                               <Button id="makePdfPatient" fx:id="makePdfPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
+                               <Button id="makeHtmlPatient" fx:id="makeHtmlPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
+                           </buttons>
+                        </ButtonBar>
+                        <Button fx:id="addPatient" contentDisplay="CENTER" layoutX="761.0" layoutY="446.0" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="139.0" text="Добавить пациента" />
+                        <TextField fx:id="addPatSurname" layoutX="1.0" layoutY="446.0" prefHeight="27.0" prefWidth="142.0" promptText="Фамилия" />
+                        <TextField fx:id="addPatName" layoutX="143.0" layoutY="446.0" prefHeight="27.0" prefWidth="145.0" promptText="Имя" />
+                        <TextField fx:id="addPatMiddle" layoutX="288.0" layoutY="446.0" prefHeight="27.0" prefWidth="146.0" promptText="Отчество" />
+                        <TextField fx:id="addPatDiagnos" layoutX="434.0" layoutY="446.0" prefHeight="27.0" prefWidth="145.0" promptText="Диагноз" />
+                        <TextField fx:id="addPatNote" layoutX="579.0" layoutY="446.0" prefHeight="27.0" prefWidth="181.0" promptText="Примечание" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

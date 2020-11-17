@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<patientList>
+<patient diagnos="Пульпит" id="1" middleName="Артемовна" name="Наталья" note="---" surname="Ремизова"/>
+<patient diagnos="Деменция" id="2" middleName="Геннадиевич" name="Никита" note="Отсутствует" surname="Чигиркин"/>
+<patient diagnos="Пневмония" id="3" middleName="Мартыновна" name="Александра" note="Отсутствует" surname="Золотухина"/>
+<patient diagnos="Кариес" id="4" middleName="Юриевич" name="Семён" note="Отсутствует" surname="Посохов"/>
+<patient diagnos="Короновирус" id="5" middleName="Евстигнеевна" name="Розалия" note="Отсутствует" surname="Ястремская"/>
+<patient diagnos="Грипп" id="6" middleName="Казимирович" name="Алексей" note="Отсутствует" surname="Горев"/>
+<patient diagnos="Перелом ступни" id="7" middleName="Михеевна" name="Вера" note="Отсутствует" surname="Сюсина"/>
+<patient diagnos="Фурункулез" id="8" middleName="Денисович" name="Сергей" note="Отсутствует" surname="Гущин"/>
+<patient diagnos="Базалиома" id="9" middleName="Захаровна" name="Ксения" note="Отсутствует" surname="Поветникова"/>
+<patient diagnos="Бронхит" id="10" middleName="Артемович" name="Виктор" note="Отсутствует" surname="Бабченко"/>
+<patient diagnos="Короновирус" id="11" middleName="Сидоровна" name="Алина" note="Отсутствует" surname="Дешевых"/>
+<patient diagnos="Абсцесс Броди" id="12" middleName="Игоревич" name="Алексей" note="Отсутствует" surname="Рыбаков"/>
+<patient diagnos="Адреногенитальный синдром" id="13" middleName="Григоргиевна" name="Галина" note="Отсутствует" surname="Карпенцева"/>
+<patient diagnos="Гигантизм" id="14" middleName="Александрович" name="Никита" note="Отсутствует" surname="Килик"/>
+<patient diagnos="Узловой зоб" id="15" middleName="Игоревна" name="Вера" note="Отсутствует" surname="Посохов"/>
+<patient diagnos="Конъюнктивит" id="16" middleName="Иванович" name="Алексей" note="Отсутствует" surname="Коновалов"/>
+<patient diagnos="Лактостаз" id="17" middleName="Ивановна" name="Наталья" note="Отсутствует" surname="Рыбакова"/>
+<patient diagnos="Назальный миаз" id="18" middleName="Петрович" name="Виктор" note="Отсутствует" surname="Милютин"/>
+<patient diagnos="Омфалит" id="19" middleName="Сергеевна" name="Надежда" note="Отсутствует" surname="Кирсанова"/>
+</patientList>
