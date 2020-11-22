@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import sample.entity.Doctor;
 import sample.entity.Patient;
@@ -15,11 +16,11 @@ import java.io.IOException;
 
 public class PdfReport {
 
-    private TableView<Doctor> doctorList;
-    private TableView<Patient> patientList;
+    private ObservableList<Doctor> doctorList;
+    private ObservableList<Patient> patientList;
     private String fileName;
 
-    public PdfReport(TableView<Doctor> doctorList, TableView<Patient> patientList, String fileName){
+    public PdfReport(ObservableList<Doctor> doctorList, ObservableList<Patient> patientList, String fileName){
         this.doctorList = doctorList;
         this.patientList = patientList;
         this.fileName = fileName;
@@ -54,13 +55,13 @@ public class PdfReport {
             table.addCell(new PdfPCell(new Phrase("Отчество",fontBold )));
             table.addCell(new PdfPCell(new Phrase("Специализация",fontBold )));
             table.addCell(new PdfPCell(new Phrase("Примечание",fontBold )));
-            for(Doctor doc : doctorList.getItems() ){
+            doctorList.forEach(doc -> {
                 table.addCell(new Phrase((String) doc.getSurname(),font));
                 table.addCell(new Phrase((String) doc.getName(),font));
                 table.addCell(new Phrase((String) doc.getMiddleName(),font));
                 table.addCell(new Phrase((String) doc.getSpecialty(),font));
-                table.addCell(new Phrase((String) doc.getNote(),font));
-            }
+                table.addCell(new Phrase((String) doc.getNote(),font)); });
+
         }
         if(patientList != null){
             table.addCell(new PdfPCell(new Phrase("Фамилия",fontBold)));
@@ -68,13 +69,12 @@ public class PdfReport {
             table.addCell(new PdfPCell(new Phrase("Отчество",fontBold )));
             table.addCell(new PdfPCell(new Phrase("Диагноз",fontBold )));
             table.addCell(new PdfPCell(new Phrase("Примечание",fontBold )));
-            for(Patient patient : patientList.getItems() ){
+            patientList.forEach(patient -> {
                 table.addCell(new Phrase((String) patient.getSurname(),font));
                 table.addCell(new Phrase((String) patient.getName(),font));
                 table.addCell(new Phrase((String) patient.getMiddleName(),font));
                 table.addCell(new Phrase((String) patient.getDiagnos(),font));
-                table.addCell(new Phrase((String) patient.getNote(),font));
-            }
+                table.addCell(new Phrase((String) patient.getNote(),font)); });
         }
 
 
@@ -84,7 +84,6 @@ public class PdfReport {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-
         document.close();
     }
 }

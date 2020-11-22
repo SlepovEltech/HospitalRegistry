@@ -1,7 +1,7 @@
 package sample.parser;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,15 +17,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class XmlSaver {
 
     @FXML
-    private TableView<Doctor> doctorList;
+    private ObservableList<Doctor> doctorList;
     private final File srcFile;
-    private TableView<Patient> patientList;
+    private ObservableList<Patient> patientList;
 
-    public XmlSaver(TableView<Doctor> doctorList, TableView<Patient> patientList, File srcFile) {
+    public XmlSaver(ObservableList<Doctor> doctorList, ObservableList<Patient> patientList, File srcFile) {
         this.srcFile = srcFile;
         this.doctorList = doctorList;
         this.patientList = patientList;
@@ -39,8 +40,8 @@ public class XmlSaver {
             Document doc = builder.newDocument();
             Node doctorNode = doc.createElement("doctorList");
             doc.appendChild(doctorNode);
-            Integer newId = 1;
-            for(Doctor doctor : doctorList.getItems()){
+            AtomicReference<Integer> newId = new AtomicReference<>(1);
+            doctorList.forEach(doctor -> {
                 Element docElement = doc.createElement("doctor");
                 doctorNode.appendChild(docElement);
                 docElement.setAttribute("id", String.valueOf(newId));
@@ -49,8 +50,9 @@ public class XmlSaver {
                 docElement.setAttribute("middleName", doctor.getMiddleName());
                 docElement.setAttribute("specialty", doctor.getSpecialty());
                 docElement.setAttribute("note", doctor.getNote());
-                newId++;
-            }
+                newId.getAndSet(newId.get() + 1);
+            });
+
             Transformer trans= TransformerFactory.newInstance().newTransformer();
             trans.setOutputProperty(OutputKeys.METHOD, "xml");
             trans.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -65,8 +67,8 @@ public class XmlSaver {
             Document doc = builder.newDocument();
             Node patientNode = doc.createElement("patientList");
             doc.appendChild(patientNode);
-            Integer newId = 1;
-            for(Patient patient : patientList.getItems()){
+            AtomicReference<Integer> newId = new AtomicReference<>(1);
+            patientList.forEach(patient -> {
                 Element docElement = doc.createElement("patient");
                 patientNode.appendChild(docElement);
                 docElement.setAttribute("id", String.valueOf(newId));
@@ -75,8 +77,8 @@ public class XmlSaver {
                 docElement.setAttribute("middleName", patient.getMiddleName());
                 docElement.setAttribute("diagnos", patient.getDiagnos());
                 docElement.setAttribute("note", patient.getNote());
-                newId++;
-            }
+                newId.getAndSet(newId.get() + 1);
+            });
             Transformer trans= TransformerFactory.newInstance().newTransformer();
             trans.setOutputProperty(OutputKeys.METHOD, "xml");
             trans.setOutputProperty(OutputKeys.INDENT, "yes");

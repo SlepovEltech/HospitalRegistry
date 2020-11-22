@@ -26,6 +26,7 @@ import sample.exception.EmptyPersonException;
 import sample.exception.NoFileException;
 import sample.parser.XmlParser;
 import sample.parser.XmlSaver;
+import sample.thread.MyThread;
 
 public class Controller {
 
@@ -235,7 +236,7 @@ public class Controller {
         makePdfDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                PdfReport report = new PdfReport(doctorList, null, "../DataSrc/DoctorDataPdf");
+                PdfReport report = new PdfReport(doctorList.getItems(), null, "../DataSrc/DoctorDataPdf");
                 report.pdfSave();
                 getAlert("PDF", "Отчет построен");
             }
@@ -243,7 +244,7 @@ public class Controller {
         makePdfPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                PdfReport report = new PdfReport(null, patientList, "../DataSrc/PatientDataPdf");
+                PdfReport report = new PdfReport(null, patientList.getItems(), "../DataSrc/PatientDataPdf");
                 report.pdfSave();
                 getAlert("PDF", "Отчет построен");
             }
@@ -252,7 +253,7 @@ public class Controller {
         makeHtmlDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                HtmlReport report = new HtmlReport(doctorList, null, "../DataSrc/DoctorDataHtml");
+                HtmlReport report = new HtmlReport(doctorList.getItems(), null, "../DataSrc/DoctorDataHtml");
                 report.saveHtml();
                 getAlert("HTML", "Отчет построен");
             }
@@ -260,7 +261,7 @@ public class Controller {
         makeHtmlPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                HtmlReport report = new HtmlReport(null, patientList, "../DataSrc/PatientDataHtml");
+                HtmlReport report = new HtmlReport(null, patientList.getItems(), "../DataSrc/PatientDataHtml");
                 report.saveHtml();
                 getAlert("HTML", "Отчет построен");
             }
@@ -322,6 +323,23 @@ public class Controller {
         patientNote.setEditable(true);
         patientNote.setCellFactory(TextFieldTableCell.forTableColumn());
         patientNote.setOnEditCommit(e -> e.getRowValue().setNote(e.getNewValue()));
+
+        Object mutex = new Object();
+        MyThread threadReader = new MyThread(mutex,1);
+        MyThread threadEditer = new MyThread(mutex, 2);
+        MyThread threadReporter = new MyThread(mutex, 3);
+
+        threadReader.start();
+        try { threadReader.join(); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        threadEditer.setDoctorList(threadReader.getDoctorList());
+        threadEditer.start();
+        try { threadEditer.join(); } catch (InterruptedException e) { e.printStackTrace(); }
+        doctorList.setItems(threadReader.getDoctorList());
+
+        threadReporter.setDoctorList(doctorList.getItems());
+        threadReporter.start();
+        try { threadReporter.join(); } catch (InterruptedException e) { e.printStackTrace(); }
 
     }
 
@@ -403,7 +421,7 @@ public class Controller {
                 this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
             } else {
                 if (getFileExtension(doctorSrc).equals("xml")) {
-                    XmlSaver saver = new XmlSaver(doctorList,null, doctorSrc);
+                    XmlSaver saver = new XmlSaver(doctorList.getItems(),null, doctorSrc);
                     saver.saveDoctor();
                     this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
                 }
@@ -427,7 +445,7 @@ public class Controller {
                 this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
             }
             if (getFileExtension(patientSrc).equals("xml")) {
-                XmlSaver saver = new XmlSaver(null,patientList,patientSrc);
+                XmlSaver saver = new XmlSaver(null,patientList.getItems(),patientSrc);
                 saver.savePatient();
                 this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
             }
