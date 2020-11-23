@@ -1,0 +1,16 @@
+2020-11-23 11:12:52,288 INFO  class:33 - Thread Reader start
+2020-11-23 11:12:52,383 INFO  class:37 - Thread Reader end
+2020-11-23 11:12:52,383 INFO  class:40 - Thread Editer start
+2020-11-23 11:12:52,383 DEBUG class:43 - Thread Editer add new row
+2020-11-23 11:12:52,526 DEBUG class:47 - Thread Editer save changes
+2020-11-23 11:12:52,527 INFO  class:51 - Thread Editer end
+2020-11-23 11:12:52,527 INFO  class:54 - Thread Reporer start
+2020-11-23 11:12:52,530 INFO  class:57 - Thread Reporter end. HTML-report made
+2020-11-23 11:13:25,797 INFO  class:33 - Thread Reader start
+2020-11-23 11:13:25,827 INFO  class:37 - Thread Reader end
+2020-11-23 11:13:25,827 INFO  class:40 - Thread Editer start
+2020-11-23 11:13:25,828 DEBUG class:43 - Thread Editer add new row
+2020-11-23 11:13:25,883 DEBUG class:47 - Thread Editer save changes
+2020-11-23 11:13:25,883 INFO  class:51 - Thread Editer end
+2020-11-23 11:13:25,884 INFO  class:54 - Thread Reporer start
+2020-11-23 11:13:25,887 INFO  class:57 - Thread Reporter end. HTML-report made

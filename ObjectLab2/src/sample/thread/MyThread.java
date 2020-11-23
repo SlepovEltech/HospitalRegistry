@@ -5,6 +5,7 @@ import sample.entity.Doctor;
 import sample.parser.XmlParser;
 import sample.parser.XmlSaver;
 import sample.report.HtmlReport;
+import org.apache.log4j.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -17,6 +18,9 @@ public class MyThread extends Thread {
 
     private ObservableList<Doctor> doctorList;
 
+    private static final Logger log = Logger.getLogger("MyThread.class");
+
+
     public MyThread(Object mutex, Integer type ) {
         this.type = type;
         this.mutex = mutex;
@@ -26,28 +30,31 @@ public class MyThread extends Thread {
     public void run(){
         switch (type){
             case 1:
-                System.out.println("Thread "+type);
+                log.info("Thread Reader start");
                 XmlParser newParser = new XmlParser(new File("./doctors.xml"));
                 newParser.parseDoctor();
                 doctorList = newParser.getDoctorList();
+                log.info("Thread Reader end");
                 break;
             case 2:
-                System.out.println("Thread "+type);
+                log.info("Thread Editer start");
                 doctorList.add(new Doctor(doctorList.size()+1,"Петров",
                     "Петр", "Петрович", "Врач-диагност", "Не имеется"));
+                log.debug("Thread Editer add new row");
                 XmlSaver saver = new XmlSaver(doctorList,null, new File("./doctors.xml"));
                 try {
                     saver.saveDoctor();
+                    log.debug("Thread Editer save changes");
                 } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
+                    log.warn("XML saver crash: ", e);
                 }
-                System.out.println("Изменения успешно сохрнены в исходный файл");
+                log.info("Thread Editer end");
                 break;
             case 3:
-                System.out.println("Thread "+type);
+                log.info("Thread Reporer start");
                 HtmlReport report = new HtmlReport(this.doctorList, null, "../DataSrc/ThreadReport");
                 report.saveHtml();
-                System.out.println("Html Отчет построен");
+                log.info("Thread Reporter end. HTML-report made");
                 break;
         }
     }
