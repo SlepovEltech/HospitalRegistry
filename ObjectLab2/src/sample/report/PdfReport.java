@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import sample.entity.Doctor;
 import sample.entity.Patient;
+import sample.exception.NoFileException;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,26 +27,22 @@ public class PdfReport {
         this.fileName = fileName;
     }
 
-    public void pdfSave( ) {
+    public void pdfSave( ) throws NoFileException{
 
         Document document = new Document(PageSize.A4, 25, 25, 25, 25);
         PdfPTable table = new PdfPTable(5);
         try {
+            if(fileName == null) throw new NoFileException("отчета");
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName+".pdf"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
+        } catch (DocumentException | FileNotFoundException  e) {
             e.printStackTrace();
         }
         BaseFont bfComic = null, bfComicBold = null;
         try {
             bfComic = BaseFont.createFont("/System/Library/Fonts/Supplemental/Arial.ttf",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        } catch (DocumentException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
+        } catch (DocumentException | IOException e1) {
             e1.printStackTrace();
         }
-
         Font font = new Font(bfComic, 12);
         Font fontBold = new Font(bfComic, 12);
         fontBold.setStyle(Font.BOLDITALIC);
@@ -76,7 +73,6 @@ public class PdfReport {
                 table.addCell(new Phrase((String) patient.getDiagnos(),font));
                 table.addCell(new Phrase((String) patient.getNote(),font)); });
         }
-
 
         document.open();
         try {

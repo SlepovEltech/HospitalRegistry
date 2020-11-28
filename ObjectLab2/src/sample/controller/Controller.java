@@ -162,24 +162,7 @@ public class Controller {
 
         addDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
-                try{
-                    if(addDocSurname.getText().isEmpty() || addDocName.getText().isEmpty() || addDocMiddle.getText().isEmpty() ||
-                            addDocSpecialty.getText().isEmpty() || addDocNote.getText().isEmpty()) throw new EmptyPersonException("Доктор");
-                    int newId = doctorList.getItems().size()+1;
-                    Doctor newDoctor = new Doctor(newId, addDocSurname.getText(), addDocName.getText(),
-                            addDocMiddle.getText(), addDocSpecialty.getText(), addDocNote.getText());
-                    doctorList.getItems().add(newDoctor);
-                    addDocSurname.clear();
-                    addDocName.clear();
-                    addDocMiddle.clear();
-                    addDocSpecialty.clear();
-                    addDocNote.clear();
-
-                    getAlert("Врач", "Врач успешно добавлен!");
-                }
-                catch (EmptyPersonException e) {e.getAlert();}
-            }
+            public void handle(MouseEvent mouseEvent) { addDoctor(); }
         });
         addPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -235,9 +218,10 @@ public class Controller {
 
         makePdfDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
+            public void handle(MouseEvent mouseEvent)  {
                 PdfReport report = new PdfReport(doctorList.getItems(), null, "../DataSrc/DoctorDataPdf");
-                report.pdfSave();
+                try{ report.pdfSave();}
+                catch (NoFileException ex) {ex.getAlertMessage();}
                 getAlert("PDF", "Отчет построен");
             }
         });
@@ -245,7 +229,8 @@ public class Controller {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 PdfReport report = new PdfReport(null, patientList.getItems(), "../DataSrc/PatientDataPdf");
-                report.pdfSave();
+                try{ report.pdfSave();}
+                catch (NoFileException ex) {ex.getAlertMessage();}
                 getAlert("PDF", "Отчет построен");
             }
         });
@@ -324,10 +309,10 @@ public class Controller {
         patientNote.setCellFactory(TextFieldTableCell.forTableColumn());
         patientNote.setOnEditCommit(e -> e.getRowValue().setNote(e.getNewValue()));
 
-        Object mutex = new Object();
-        MyThread threadReader = new MyThread(mutex,1);
-        MyThread threadEditer = new MyThread(mutex, 2);
-        MyThread threadReporter = new MyThread(mutex, 3);
+        addDoctor.getOnMouseClicked();
+        MyThread threadReader = new MyThread(1);
+        MyThread threadEditer = new MyThread( 2);
+        MyThread threadReporter = new MyThread( 3);
 
         threadReader.start();
         try { threadReader.join(); } catch (InterruptedException e) { e.printStackTrace(); }
@@ -461,6 +446,24 @@ public class Controller {
         alert.showAndWait();
     }
 
+    public void addDoctor(){
+        try{
+            if(addDocSurname.getText().isEmpty() || addDocName.getText().isEmpty() || addDocMiddle.getText().isEmpty() ||
+                    addDocSpecialty.getText().isEmpty() || addDocNote.getText().isEmpty()) throw new EmptyPersonException("Доктор");
+            int newId = doctorList.getItems().size()+1;
+            Doctor newDoctor = new Doctor(newId, addDocSurname.getText(), addDocName.getText(),
+                    addDocMiddle.getText(), addDocSpecialty.getText(), addDocNote.getText());
+            doctorList.getItems().add(newDoctor);
+            addDocSurname.clear();
+            addDocName.clear();
+            addDocMiddle.clear();
+            addDocSpecialty.clear();
+            addDocNote.clear();
+            getAlert("Врач", "Врач успешно добавлен!");
+        }
+        catch (EmptyPersonException e) {e.getAlert();}
+    }
+
     private static String getFileExtension(File file) {
         String fileName = file.getName();
         // если в имени файла есть точка и она не является первым символом в названии файла
@@ -470,4 +473,6 @@ public class Controller {
             // в противном случае возвращаем заглушку, то есть расширение не найдено
         else return "";
     }
+
+    public Button getAddDoctor() { return addDoctor; }
 }

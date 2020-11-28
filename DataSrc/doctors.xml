@@ -21,4 +21,6 @@
 <doctor id="19" middleName="Сергеевна" name="Надежда" note="Отсутствует" specialty="Терапевт" surname="Кирсанова"/>
 <doctor id="20" middleName="Эдуардович" name="Артем" note="Нет" specialty="Нейрохирург" surname="Слепов"/>
 <doctor id="21" middleName="Иванович" name="Иван" note="Нет" specialty="Завхоз" surname=" Иванов"/>
+<doctor id="22" middleName="Петрович" name="Петр" note="Не имеется" specialty="Врач-диагност" surname="Петров"/>
+<doctor id="23" middleName="Петрович" name="Петр" note="Не имеется" specialty="Врач-диагност" surname="Петров"/>
 </doctorList>

@@ -15,5 +15,7 @@ public class NoFileException extends Exception{
         alert.setContentText(this.getMessage());
         alert.showAndWait();
     }
+    public String getAlertMessage() {return this.getMessage(); }
+
 }
 

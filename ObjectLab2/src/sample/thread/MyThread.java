@@ -14,16 +14,13 @@ public class MyThread extends Thread {
 
     private Integer type;
 
-    Object mutex;
-
     private ObservableList<Doctor> doctorList;
 
     private static final Logger log = Logger.getLogger("MyThread.class");
 
 
-    public MyThread(Object mutex, Integer type ) {
+    public MyThread(Integer type ) {
         this.type = type;
-        this.mutex = mutex;
     }
 
     @Override
@@ -31,7 +28,7 @@ public class MyThread extends Thread {
         switch (type){
             case 1:
                 log.info("Thread Reader start");
-                XmlParser newParser = new XmlParser(new File("./doctors.xml"));
+                XmlParser newParser = new XmlParser(new File("../DataSrc/doctors.xml"));
                 newParser.parseDoctor();
                 doctorList = newParser.getDoctorList();
                 log.info("Thread Reader end");
@@ -41,7 +38,7 @@ public class MyThread extends Thread {
                 doctorList.add(new Doctor(doctorList.size()+1,"Петров",
                     "Петр", "Петрович", "Врач-диагност", "Не имеется"));
                 log.debug("Thread Editer add new row");
-                XmlSaver saver = new XmlSaver(doctorList,null, new File("./doctors.xml"));
+                XmlSaver saver = new XmlSaver(doctorList,null, new File("../DataSrc/doctors.xml"));
                 try {
                     saver.saveDoctor();
                     log.debug("Thread Editer save changes");
