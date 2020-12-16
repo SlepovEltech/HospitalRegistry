@@ -26,6 +26,9 @@ public abstract class Person {
         this.name = "";
         this.middleName = "";
     }
+    public String getFullName(){
+        return surname+" "+name+" "+middleName;
+    }
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }
@@ -61,4 +64,5 @@ public abstract class Person {
     public void setNote(String note) {
         this.note = note;
     }
+
 }

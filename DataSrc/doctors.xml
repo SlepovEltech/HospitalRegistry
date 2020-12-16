@@ -23,4 +23,5 @@
 <doctor id="21" middleName="Иванович" name="Иван" note="Нет" specialty="Завхоз" surname=" Иванов"/>
 <doctor id="22" middleName="Петрович" name="Петр" note="Не имеется" specialty="Врач-диагност" surname="Петров"/>
 <doctor id="23" middleName="Петрович" name="Петр" note="Не имеется" specialty="Врач-диагност" surname="Петров"/>
+<doctor id="24" middleName="Петрович" name="Петр" note="Не имеется" specialty="Врач-диагност" surname="Петров"/>
 </doctorList>

@@ -1,8 +1,7 @@
 package sample.entity;
 
 public class Patient extends Person {
-    public String diagnos;
-
+    private String diagnos;
     public Patient()
     {
         super();
@@ -33,4 +32,15 @@ public class Patient extends Person {
         String res = ";"+getSurname()+";"+getName()+";"+getMiddleName()+";"+getDiagnos()+";"+getNote()+";";
         return res;
     }
+
+    public String stringForMeeting()
+    {
+        return getSurname()+" "+getName()+" "+getMiddleName()+" "+getDiagnos();
+    }
+
+    @Override
+    public String toString(){
+        return getSurname()+" "+getName()+" "+getMiddleName();
+    }
+
 }

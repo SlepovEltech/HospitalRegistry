@@ -1,8 +1,6 @@
 package sample.controller;
 
 import java.io.FileReader;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import java.io.*;
 
@@ -10,14 +8,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+
 import javafx.scene.input.MouseEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import sample.DataAccessor;
+import sample.entity.Meeting;
 import sample.report.HtmlReport;
 import sample.report.PdfReport;
 import sample.entity.Doctor;
@@ -33,119 +38,57 @@ public class Controller {
     private ObservableList<Doctor> doctorData = FXCollections.observableArrayList();
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
     private File doctorSrc, patientSrc;
-    @FXML
-    private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+    private DataAccessor da;
 
-    @FXML
-    private TableView<Doctor> doctorList;
+    private ObservableList<Patient> patientsForDoctor = FXCollections.observableArrayList();
+    private ObservableList<Meeting> meetingsList = FXCollections.observableArrayList();
 
-    @FXML
-    private TableColumn<Doctor, Integer> doctorId;
 
-    @FXML
-    private TableColumn<Doctor, String> docSurname;
+    @FXML private TableView<Doctor> doctorList;
 
-    @FXML
-    private TableColumn<Doctor, String> docName;
+    @FXML private TableColumn<Doctor, Integer> doctorId;
+    @FXML private TableColumn<Doctor, String> docSurname;
+    @FXML private TableColumn<Doctor, String> docName;
+    @FXML private TableColumn<Doctor, String> docMiddleName;
+    @FXML private TableColumn<Doctor, String> docSpecialty;
+    @FXML private TableColumn<Doctor, String> docNote;
 
-    @FXML
-    private TableColumn<Doctor, String> docMiddleName;
+    @FXML private TextField addDocSurname;
+    @FXML private TextField addDocName;
+    @FXML private TextField addDocMiddle;
+    @FXML private TextField addDocSpecialty;
+    @FXML private TextField addDocNote;
 
-    @FXML
-    private TableColumn<Doctor, String> docSpecialty;
+    @FXML private Button addDoctor;
+    @FXML private Button loadDoctor;
+    @FXML private Button deleteDoctor;
+    @FXML private Button saveDoctor;
 
-    @FXML
-    private TableColumn<Doctor, String> docNote;
+    @FXML private TableView<Patient> patientList;
+    @FXML private TableColumn<Patient, Integer> patientId;
+    @FXML private TableColumn<Patient, String> patientSurname;
+    @FXML private TableColumn<Patient, String> patientName;
+    @FXML private TableColumn<Patient, String> patientMiddleName;
+    @FXML private TableColumn<Patient, String> patientDiagnos;
+    @FXML private TableColumn<Patient, String> patientNote;
 
-    @FXML
-    private TextField addDocSurname;
+    @FXML private TextField addPatSurname;
+    @FXML private TextField addPatName;
+    @FXML private TextField addPatMiddle;
+    @FXML private TextField addPatDiagnos;
+    @FXML private TextField addPatNote;
 
-    @FXML
-    private TextField addDocName;
+    @FXML private Button addPatient;
+    @FXML private Button loadPatient;
+    @FXML private Button deletePatient;
+    @FXML private Button savePatient;
 
-    @FXML
-    private TextField addDocMiddle;
-
-    @FXML
-    private TextField addDocSpecialty;
-
-    @FXML
-    private TextField addDocNote;
-
-    @FXML
-    private Button addDoctor;
-
-    @FXML
-    private Button loadDoctor;
-
-    @FXML
-    private Button deleteDoctor;
-
-    @FXML
-    private Button saveDoctor;
-
-    @FXML
-    private TableView<Patient> patientList;
-
-    @FXML
-    private TableColumn<Patient, Integer> patientId;
-
-    @FXML
-    private TableColumn<Patient, String> patientSurname;
-
-    @FXML
-    private TableColumn<Patient, String> patientName;
-
-    @FXML
-    private TableColumn<Patient, String> patientMiddleName;
-
-    @FXML
-    private TableColumn<Patient, String> patientDiagnos;
-
-    @FXML
-    private TableColumn<Patient, String> patientNote;
-
-    @FXML
-    private TextField addPatSurname;
-
-    @FXML
-    private TextField addPatName;
-
-    @FXML
-    private TextField addPatMiddle;
-
-    @FXML
-    private TextField addPatDiagnos;
-
-    @FXML
-    private TextField addPatNote;
-
-    @FXML
-    private Button addPatient;
-
-    @FXML
-    private Button loadPatient;
-
-    @FXML
-    private Button deletePatient;
-
-    @FXML
-    private Button savePatient;
-
-    @FXML
-    private Button makePdfDoctor;
-
-    @FXML
-    private Button makePdfPatient;
-
-    @FXML
-    private Button makeHtmlDoctor;
-
-    @FXML
-    private Button makeHtmlPatient;
+    @FXML private Button makePdfDoctor;
+    @FXML private Button makePdfPatient;
+    @FXML private Button makeHtmlDoctor;
+    @FXML private Button makeHtmlPatient;
+    @FXML private Button moreDocInfo;
 
     @FXML
     void initialize() {
@@ -175,6 +118,7 @@ public class Controller {
                     Patient newPatient = new Patient(newId, addPatSurname.getText(), addPatName.getText(),
                             addPatMiddle.getText(), addPatDiagnos.getText(), addPatNote.getText());
                     patientList.getItems().add(newPatient);
+                    da.createPatient(newPatient);
                     addPatSurname.clear();
                     addPatName.clear();
                     addPatMiddle.clear();
@@ -201,6 +145,7 @@ public class Controller {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 int index = doctorList.getSelectionModel().getSelectedIndex();
+                da.deleteDoctor(doctorList.getItems().get(index));
                 doctorList.getItems().remove(index);
                 doctorList.refresh();
                 getAlert("Доктор", "Выбранный доктор успешно исключен из таблицы");
@@ -210,9 +155,42 @@ public class Controller {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 int index = patientList.getSelectionModel().getSelectedIndex();
+                da.deletePatient(patientList.getItems().get(index));
                 patientList.getItems().remove(index);
                 patientList.refresh();
                 getAlert("Пациент", "Выбранный пациент успешно исключен из таблицы");
+            }
+        });
+
+        moreDocInfo.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("../personcard.fxml"));
+                    Parent root = fxmlLoader.load();
+
+                    PersonCard cardController = fxmlLoader.getController();
+                    Doctor selectedDoc = doctorList.getSelectionModel().getSelectedItem();
+                    cardController.dataTransfer(selectedDoc, patientList.getItems(), meetingsList);
+
+                    Scene scene = new Scene(root, 800, 400);
+                    Stage stage = new Stage();
+                    stage.setTitle("Подробная информация");
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.show();
+                    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        public void handle(WindowEvent we) {
+                            da.meetingQuery();
+                            meetingsList.setAll(da.getMeetingList());
+//                            System.out.println(meetingsList.get(meetingsList.size()-1).getId());
+//                            System.out.println("Window closed! Data refreshed!");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -251,7 +229,12 @@ public class Controller {
                 getAlert("HTML", "Отчет построен");
             }
         });
+        da =  DataAccessor.getDataAccessor();
+        da.doctorQuery();
+        da.meetingQuery();
+        da.patientQuery();
 
+        //Set tables editable
         doctorList.setEditable(true);
         patientList.setEditable(true);
 
@@ -260,72 +243,88 @@ public class Controller {
         docSurname.setCellValueFactory(new PropertyValueFactory<Doctor, String>("surname"));
         docSurname.setEditable(true);
         docSurname.setCellFactory(TextFieldTableCell.forTableColumn());
-        docSurname.setOnEditCommit(e -> e.getRowValue().setSurname(e.getNewValue()));
+        docSurname.setOnEditCommit(e -> {
+            e.getRowValue().setSurname(e.getNewValue());
+            da.updateDoctor(e.getRowValue());
+        });
 
         docName.setCellValueFactory(new PropertyValueFactory<Doctor, String>("name"));
         docName.setEditable(true);
         docName.setCellFactory(TextFieldTableCell.forTableColumn());
-        docName.setOnEditCommit(e -> e.getRowValue().setName(e.getNewValue()));
+        docName.setOnEditCommit(e -> {
+            e.getRowValue().setName(e.getNewValue());
+            da.updateDoctor(e.getRowValue());
+        });
 
         docMiddleName.setCellValueFactory(new PropertyValueFactory<Doctor, String>("middleName"));
         docMiddleName.setEditable(true);
         docMiddleName.setCellFactory(TextFieldTableCell.forTableColumn());
-        docMiddleName.setOnEditCommit(e -> e.getRowValue().setMiddleName(e.getNewValue()));
+        docMiddleName.setOnEditCommit(e -> {
+            e.getRowValue().setMiddleName(e.getNewValue());
+            da.updateDoctor(e.getRowValue());
+        });
 
         docSpecialty.setCellValueFactory(new PropertyValueFactory<Doctor, String>("specialty"));
         docSpecialty.setEditable(true);
         docSpecialty.setCellFactory(TextFieldTableCell.forTableColumn());
-        docSpecialty.setOnEditCommit(e -> e.getRowValue().setSpecialty(e.getNewValue()));
+        docSpecialty.setOnEditCommit(e -> {
+            e.getRowValue().setSpecialty(e.getNewValue());
+            da.updateDoctor(e.getRowValue());
+        });
 
         docNote.setCellValueFactory(new PropertyValueFactory<Doctor, String>("note"));
         docNote.setEditable(true);
         docNote.setCellFactory(TextFieldTableCell.forTableColumn());
-        docNote.setOnEditCommit(e -> e.getRowValue().setNote(e.getNewValue()));
+        docNote.setOnEditCommit(e -> {
+            e.getRowValue().setNote(e.getNewValue());
+            da.updateDoctor(e.getRowValue());
+        });
 
         patientId.setCellValueFactory(new PropertyValueFactory<Patient, Integer>("id"));
 
         patientSurname.setCellValueFactory(new PropertyValueFactory<Patient, String>("surname"));
         patientSurname.setEditable(true);
         patientSurname.setCellFactory(TextFieldTableCell.forTableColumn());
-        patientSurname.setOnEditCommit(e -> e.getRowValue().setSurname(e.getNewValue()));
+        patientSurname.setOnEditCommit(e -> {
+            e.getRowValue().setSurname(e.getNewValue());
+            da.updatePatient(e.getRowValue());
+        });
 
         patientName.setCellValueFactory(new PropertyValueFactory<Patient, String>("name"));
         patientName.setEditable(true);
         patientName.setCellFactory(TextFieldTableCell.forTableColumn());
-        patientName.setOnEditCommit(e -> e.getRowValue().setName(e.getNewValue()));
+        patientName.setOnEditCommit(e -> {
+            e.getRowValue().setName(e.getNewValue());
+        });
 
         patientMiddleName.setCellValueFactory(new PropertyValueFactory<Patient, String>("middleName"));
         patientMiddleName.setEditable(true);
         patientMiddleName.setCellFactory(TextFieldTableCell.forTableColumn());
-        patientMiddleName.setOnEditCommit(e -> { e.getRowValue().setMiddleName(e.getNewValue()); });
+        patientMiddleName.setOnEditCommit(e -> {
+            e.getRowValue().setMiddleName(e.getNewValue());
+            da.updatePatient(e.getRowValue());
+        });
 
         patientDiagnos.setCellValueFactory(new PropertyValueFactory<Patient, String>("diagnos"));
         patientDiagnos.setEditable(true);
         patientDiagnos.setCellFactory(TextFieldTableCell.forTableColumn());
-        patientDiagnos.setOnEditCommit(e -> e.getRowValue().setDiagnos(e.getNewValue()));
+        patientDiagnos.setOnEditCommit(e -> {
+            e.getRowValue().setDiagnos(e.getNewValue());
+            da.updatePatient(e.getRowValue());
+        });
 
         patientNote.setCellValueFactory(new PropertyValueFactory<Patient, String>("note"));
         patientNote.setEditable(true);
         patientNote.setCellFactory(TextFieldTableCell.forTableColumn());
-        patientNote.setOnEditCommit(e -> e.getRowValue().setNote(e.getNewValue()));
+        patientNote.setOnEditCommit(e -> {
+            e.getRowValue().setNote(e.getNewValue());
+            da.updatePatient(e.getRowValue());
+        });
 
-        addDoctor.getOnMouseClicked();
-        MyThread threadReader = new MyThread(1);
-        MyThread threadEditer = new MyThread( 2);
-        MyThread threadReporter = new MyThread( 3);
 
-        threadReader.start();
-        try { threadReader.join(); } catch (InterruptedException e) { e.printStackTrace(); }
-
-        threadEditer.setDoctorList(threadReader.getDoctorList());
-        threadEditer.start();
-        try { threadEditer.join(); } catch (InterruptedException e) { e.printStackTrace(); }
-        doctorList.setItems(threadReader.getDoctorList());
-
-        threadReporter.setDoctorList(doctorList.getItems());
-        threadReporter.start();
-        try { threadReporter.join(); } catch (InterruptedException e) { e.printStackTrace(); }
-
+        doctorList.setItems(da.getDoctorList());
+        patientList.setItems(da.getPatientList());
+        meetingsList.setAll(da.getMeetingList());
     }
 
     public void loadDoctor( ) {
@@ -454,6 +453,8 @@ public class Controller {
             Doctor newDoctor = new Doctor(newId, addDocSurname.getText(), addDocName.getText(),
                     addDocMiddle.getText(), addDocSpecialty.getText(), addDocNote.getText());
             doctorList.getItems().add(newDoctor);
+
+            da.createDoctor(newDoctor);
             addDocSurname.clear();
             addDocName.clear();
             addDocMiddle.clear();
@@ -473,6 +474,4 @@ public class Controller {
             // в противном случае возвращаем заглушку, то есть расширение не найдено
         else return "";
     }
-
-    public Button getAddDoctor() { return addDoctor; }
 }

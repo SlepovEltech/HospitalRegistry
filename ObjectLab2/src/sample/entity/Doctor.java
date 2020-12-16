@@ -1,5 +1,7 @@
 package sample.entity;
 
+import java.util.ArrayList;
+
 public class Doctor extends Person {
     public String specialty;
 
@@ -8,7 +10,6 @@ public class Doctor extends Person {
         super(id, surname, name, middleName, note);
         this.specialty = specialty;
     }
-
     public Doctor(String []data)
     {
         super(Integer.parseInt(data[0]),data[1],data[2],data[3],data[5]);

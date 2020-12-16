@@ -30,3 +30,11 @@
 2020-11-27 12:49:52,623 INFO  class:48 - Thread Editer end
 2020-11-27 12:49:52,624 INFO  class:51 - Thread Reporer start
 2020-11-27 12:49:52,629 INFO  class:54 - Thread Reporter end. HTML-report made
+2020-11-28 19:19:35,493 INFO  class:30 - Thread Reader start
+2020-11-28 19:19:35,641 INFO  class:34 - Thread Reader end
+2020-11-28 19:19:35,642 INFO  class:37 - Thread Editer start
+2020-11-28 19:19:35,643 DEBUG class:40 - Thread Editer add new row
+2020-11-28 19:19:35,789 DEBUG class:44 - Thread Editer save changes
+2020-11-28 19:19:35,789 INFO  class:48 - Thread Editer end
+2020-11-28 19:19:35,790 INFO  class:51 - Thread Reporer start
+2020-11-28 19:19:35,794 INFO  class:54 - Thread Reporter end. HTML-report made
