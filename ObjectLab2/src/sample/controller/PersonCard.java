@@ -15,9 +15,12 @@ import sample.DataAccessor;
 import sample.entity.Doctor;
 import sample.entity.Meeting;
 import sample.entity.Patient;
+import sample.exception.EmptyPersonException;
 
 import javax.xml.soap.Text;
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -51,18 +54,24 @@ public class PersonCard {
         addMeeting.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Meeting newMeet = new Meeting();
-                Patient selected = patientChoiceBox.getValue();
-                String newDate = datePicker.getValue().toString();
-                String newTime = timePicker.getText();
-                String query = doctor.getId()+","+selected.getId()+",'"+newDate+" "+newTime+"'";
-                da.createMeeting(query);
-                newMeet.setPatientName(selected.getFullName());
-                newMeet.setDiagnos(selected.getDiagnos());
-                newMeet.setDate(newDate+" "+newTime);
-                newMeet.setPatientId(selected.getId());
-                newMeet.setDoctorId(doctor.getId());
-                meetingTable.getItems().add(newMeet);
+                try{
+                    Meeting newMeet = new Meeting();
+                    Patient selected = patientChoiceBox.getValue();
+                    String newDate;
+                    newDate = datePicker.getValue().toString();
+                    String newTime = timePicker.getText();
+                    if(selected == null || newDate == null || newTime == null) throw new EmptyPersonException("Нет  информации о новом приеме");
+                    String query = doctor.getId()+","+selected.getId()+",'"+newDate+" "+newTime+"'";
+                    da.createMeeting(query);
+                    newMeet.setPatientName(selected.getFullName());
+                    newMeet.setDiagnos(selected.getDiagnos());
+                    newMeet.setDate(newDate+" "+newTime);
+                    newMeet.setPatientId(selected.getId());
+                    newMeet.setDoctorId(doctor.getId());
+                    meetingTable.getItems().add(newMeet);
+                }catch (EmptyPersonException ex){
+                    ex.getAlert();
+                }
             }
         });
         deleteMeeting.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -80,6 +89,10 @@ public class PersonCard {
         docFullName.setText(doctor.getSurname()+" "+doctor.getName()+" "+doctor.getMiddleName());
         docSpecialty.setText(doctor.getSpecialty());
         docNote.setText("Примечение: "+doctor.getNote());
+
+        Comparator<Patient> patientComparator = Comparator.comparing(Patient::getSurname);
+        Collections.sort(patientList, patientComparator);
+
         patientChoiceBox.setItems(patientList);
         String surname = doctor.getSurname();
         Integer imgNumber  = 6+(int) (Math.random() * 5); //Костыль с картинками. Есть 5 мужских фото(6-10) и 5 женских(1-5).

@@ -39,7 +39,7 @@
                <HBox prefHeight="27.0" prefWidth="498.0">
                   <ChoiceBox fx:id="patientChoiceBox" prefHeight="27.0" prefWidth="204.0" />
                   <DatePicker fx:id="datePicker" maxWidth="165.0" prefHeight="27.0" prefWidth="165.0" />
-                  <TextField fx:id="timePicker" maxWidth="130.0" prefHeight="27.0" prefWidth="130.0" text="Время ЧЧ:ММ" />
+                  <TextField fx:id="timePicker" maxWidth="130.0" prefHeight="27.0" prefWidth="130.0" promptText="Время ЧЧ:ММ" />
                </HBox>
                <HBox>
                   <Button fx:id="addMeeting" prefHeight="27.0" prefWidth="206.0" text="Назначить новый прием" />

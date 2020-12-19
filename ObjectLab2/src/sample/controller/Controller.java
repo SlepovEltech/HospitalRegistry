@@ -35,15 +35,10 @@ import sample.thread.MyThread;
 
 public class Controller {
 
-    private ObservableList<Doctor> doctorData = FXCollections.observableArrayList();
-    private ObservableList<Patient> patientData = FXCollections.observableArrayList();
-    private File doctorSrc, patientSrc;
 
     private DataAccessor da;
 
-    private ObservableList<Patient> patientsForDoctor = FXCollections.observableArrayList();
     private ObservableList<Meeting> meetingsList = FXCollections.observableArrayList();
-
 
     @FXML private TableView<Doctor> doctorList;
 
@@ -61,9 +56,7 @@ public class Controller {
     @FXML private TextField addDocNote;
 
     @FXML private Button addDoctor;
-    @FXML private Button loadDoctor;
     @FXML private Button deleteDoctor;
-    @FXML private Button saveDoctor;
 
     @FXML private TableView<Patient> patientList;
     @FXML private TableColumn<Patient, Integer> patientId;
@@ -80,9 +73,7 @@ public class Controller {
     @FXML private TextField addPatNote;
 
     @FXML private Button addPatient;
-    @FXML private Button loadPatient;
     @FXML private Button deletePatient;
-    @FXML private Button savePatient;
 
     @FXML private Button makePdfDoctor;
     @FXML private Button makePdfPatient;
@@ -92,16 +83,6 @@ public class Controller {
 
     @FXML
     void initialize() {
-        loadDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) { loadDoctor(); }
-        });
-        loadPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                loadPatient();
-            }
-        });
 
         addDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -113,7 +94,8 @@ public class Controller {
                 try{
                     int newId = patientList.getItems().size()+1;
                     if(addPatSurname.getText().isEmpty() || addPatName.getText().isEmpty() || addPatMiddle.getText().isEmpty() ||
-                            addPatDiagnos.getText().isEmpty() || addPatNote.getText().isEmpty()) throw new EmptyPersonException("Пациент");
+                            addPatDiagnos.getText().isEmpty() || addPatNote.getText().isEmpty())
+                        throw new EmptyPersonException("Пациент содержит пустые поля");
                     System.out.println(addPatSurname.getText());
                     Patient newPatient = new Patient(newId, addPatSurname.getText(), addPatName.getText(),
                             addPatMiddle.getText(), addPatDiagnos.getText(), addPatNote.getText());
@@ -130,15 +112,6 @@ public class Controller {
                 catch (EmptyPersonException e) {e.getAlert();}
 
             }
-        });
-
-        saveDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) { saveDoctor(); }
-        });
-        savePatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) { savePatient(); }
         });
 
         deleteDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -169,9 +142,9 @@ public class Controller {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("../personcard.fxml"));
                     Parent root = fxmlLoader.load();
-
                     PersonCard cardController = fxmlLoader.getController();
                     Doctor selectedDoc = doctorList.getSelectionModel().getSelectedItem();
+                    if(selectedDoc == null)  throw new EmptyPersonException("Не выбран доктор для просмотра личной карточки");
                     cardController.dataTransfer(selectedDoc, patientList.getItems(), meetingsList);
 
                     Scene scene = new Scene(root, 800, 400);
@@ -184,13 +157,16 @@ public class Controller {
                         public void handle(WindowEvent we) {
                             da.meetingQuery();
                             meetingsList.setAll(da.getMeetingList());
-//                            System.out.println(meetingsList.get(meetingsList.size()-1).getId());
-//                            System.out.println("Window closed! Data refreshed!");
+//
                         }
                     });
-                } catch (Exception e) {
+                } catch (EmptyPersonException e) {
+                    e.getAlert();
+                }
+                catch(IOException e){
                     e.printStackTrace();
                 }
+
             }
         });
 
@@ -327,116 +303,6 @@ public class Controller {
         meetingsList.setAll(da.getMeetingList());
     }
 
-    public void loadDoctor( ) {
-
-        final FileChooser fileChooser = new FileChooser();
-        doctorSrc = fileChooser.showOpenDialog(new Stage());
-        doctorList.getItems().clear();
-        if (getFileExtension(doctorSrc).equals("csv"))
-        {
-            try {
-                //создаем объект FileReader для объекта File
-                FileReader fr = new FileReader(doctorSrc);
-                //создаем BufferedReader с существующего FileReader для построчного считывания
-                BufferedReader reader = new BufferedReader(fr);
-                // считаем сначала первую строку
-                String line = reader.readLine();
-                while (line != null) {
-                    doctorData.add(new Doctor(line.split(";")));
-                    line = reader.readLine();
-                }
-                doctorList.setItems(doctorData);
-            } catch (IOException e) { e.printStackTrace(); }
-        }
-        else
-        {
-            if(getFileExtension(doctorSrc).equals("xml"))
-            {
-                XmlParser newParser = new XmlParser(doctorSrc);
-                newParser.parseDoctor();
-                doctorList.setItems(newParser.getDoctorList());
-            }
-        }
-    }
-
-    public void loadPatient( ) {
-        final FileChooser fileChooser = new FileChooser();
-        patientSrc = fileChooser.showOpenDialog(new Stage());
-        patientList.getItems().clear();
-        if (getFileExtension(patientSrc).equals("csv")) {
-            try {
-                //создаем объект FileReader для объекта File
-                FileReader fr = new FileReader(patientSrc);
-                //создаем BufferedReader с существующего FileReader для построчного считывания
-                BufferedReader reader = new BufferedReader(fr);
-                // считаем сначала первую строку
-                String line = reader.readLine();
-                while (line != null) {
-                    patientData.add(new Patient(line.split(";")));
-                    line = reader.readLine();
-                }
-                patientList.setItems(patientData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            if(getFileExtension(patientSrc).equals("xml")) {
-                XmlParser newParser = new XmlParser(patientSrc);
-                newParser.parsePatient();
-                patientList.setItems(newParser.getPatientList());
-                System.out.println("Hello");
-            }
-        }
-    }
-
-    public void saveDoctor( ) {
-        try {
-            if (doctorSrc == null) throw new NoFileException("докторов");
-            if (getFileExtension(doctorSrc).equals("csv")) {
-                FileWriter fw = new FileWriter(this.doctorSrc, false);
-                int newId = 1;
-                for (Doctor doctor : doctorList.getItems()) {
-                    String str = newId + doctor.getString() + "\n";
-                    fw.write(str);
-                    fw.flush();
-                    newId++;
-                }
-                this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
-            } else {
-                if (getFileExtension(doctorSrc).equals("xml")) {
-                    XmlSaver saver = new XmlSaver(doctorList.getItems(),null, doctorSrc);
-                    saver.saveDoctor();
-                    this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
-                }
-            }
-        }
-        catch (Exception e) {e.printStackTrace();}
-    }
-
-    public void savePatient( ) {
-        try {
-            if(patientSrc == null) throw new NoFileException("пациентов");
-            if (getFileExtension(patientSrc).equals("csv")) {
-                FileWriter fw = new FileWriter(this.patientSrc, false);
-                int newId = 1;
-                for (Patient patient : patientList.getItems()) {
-                    String str = newId + patient.getString() + "\n";
-                    fw.write(str);
-                    fw.flush();
-                    newId++;
-                }
-                this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
-            }
-            if (getFileExtension(patientSrc).equals("xml")) {
-                XmlSaver saver = new XmlSaver(null,patientList.getItems(),patientSrc);
-                saver.savePatient();
-                this.getAlert("Изменение", "Изменения успешно сохрнены в исходный файл");
-            }
-        }
-        catch (Exception e) {e.printStackTrace();}
-    }
-
     public void getAlert(String header,String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(header);
@@ -448,7 +314,8 @@ public class Controller {
     public void addDoctor(){
         try{
             if(addDocSurname.getText().isEmpty() || addDocName.getText().isEmpty() || addDocMiddle.getText().isEmpty() ||
-                    addDocSpecialty.getText().isEmpty() || addDocNote.getText().isEmpty()) throw new EmptyPersonException("Доктор");
+                    addDocSpecialty.getText().isEmpty() || addDocNote.getText().isEmpty())
+                throw new EmptyPersonException("Доктор содержит пустые поля");
             int newId = doctorList.getItems().size()+1;
             Doctor newDoctor = new Doctor(newId, addDocSurname.getText(), addDocName.getText(),
                     addDocMiddle.getText(), addDocSpecialty.getText(), addDocNote.getText());
