@@ -11,20 +11,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.apache.log4j.Logger;
 import sample.DataAccessor;
 import sample.entity.Doctor;
 import sample.entity.Meeting;
 import sample.entity.Patient;
 import sample.exception.EmptyPersonException;
 
-import javax.xml.soap.Text;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-
 
 public class PersonCard {
+
+    private static final Logger log = Logger.getLogger("PersonCard.class");
 
     @FXML private ImageView avatar;
     private Doctor doctor;
@@ -63,12 +63,14 @@ public class PersonCard {
                     if(selected == null || newDate == null || newTime == null) throw new EmptyPersonException("Нет  информации о новом приеме");
                     String query = doctor.getId()+","+selected.getId()+",'"+newDate+" "+newTime+"'";
                     da.createMeeting(query);
+                    newMeet.setId(meetingTable.getItems().size()+1);
                     newMeet.setPatientName(selected.getFullName());
                     newMeet.setDiagnos(selected.getDiagnos());
                     newMeet.setDate(newDate+" "+newTime);
                     newMeet.setPatientId(selected.getId());
                     newMeet.setDoctorId(doctor.getId());
                     meetingTable.getItems().add(newMeet);
+                    log.info("Add new meeting with id="+newMeet.getId());
                 }catch (EmptyPersonException ex){
                     ex.getAlert();
                 }

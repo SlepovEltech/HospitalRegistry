@@ -1,7 +1,5 @@
 package sample.controller;
 
-import java.io.FileReader;
-
 import java.io.*;
 
 import javafx.collections.FXCollections;
@@ -18,9 +16,9 @@ import javafx.scene.input.MouseEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.log4j.Logger;
 import sample.DataAccessor;
 import sample.entity.Meeting;
 import sample.report.HtmlReport;
@@ -29,16 +27,14 @@ import sample.entity.Doctor;
 import sample.entity.Patient;
 import sample.exception.EmptyPersonException;
 import sample.exception.NoFileException;
-import sample.parser.XmlParser;
-import sample.parser.XmlSaver;
-import sample.thread.MyThread;
 
 public class Controller {
 
+    private static final Logger log = Logger.getLogger("Controller.class");
 
     private DataAccessor da;
 
-    private ObservableList<Meeting> meetingsList = FXCollections.observableArrayList();
+    private final ObservableList<Meeting> meetingsList = FXCollections.observableArrayList();
 
     @FXML private TableView<Doctor> doctorList;
 
@@ -84,55 +80,49 @@ public class Controller {
     @FXML
     void initialize() {
 
-        addDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) { addDoctor(); }
-        });
-        addPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try{
-                    int newId = patientList.getItems().size()+1;
-                    if(addPatSurname.getText().isEmpty() || addPatName.getText().isEmpty() || addPatMiddle.getText().isEmpty() ||
-                            addPatDiagnos.getText().isEmpty() || addPatNote.getText().isEmpty())
-                        throw new EmptyPersonException("Пациент содержит пустые поля");
-                    System.out.println(addPatSurname.getText());
-                    Patient newPatient = new Patient(newId, addPatSurname.getText(), addPatName.getText(),
-                            addPatMiddle.getText(), addPatDiagnos.getText(), addPatNote.getText());
-                    patientList.getItems().add(newPatient);
-                    da.createPatient(newPatient);
-                    addPatSurname.clear();
-                    addPatName.clear();
-                    addPatMiddle.clear();
-                    addPatDiagnos.clear();
-                    addPatNote.clear();
+        addDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> addDoctor());
+        addPatient.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            try{
+                int lastIndex = patientList.getItems().size()-1;
+                int newId =  patientList.getItems().get(lastIndex).getId()+1;
 
-                    getAlert("Добавление", "Пациент успешно добавлен!");
-                }
-                catch (EmptyPersonException e) {e.getAlert();}
+                if(addPatSurname.getText().isEmpty() || addPatName.getText().isEmpty() || addPatMiddle.getText().isEmpty() ||
+                        addPatDiagnos.getText().isEmpty() || addPatNote.getText().isEmpty())
+                    throw new EmptyPersonException("Пациент содержит пустые поля");
+                System.out.println(addPatSurname.getText());
+                Patient newPatient = new Patient(newId, addPatSurname.getText(), addPatName.getText(),
+                        addPatMiddle.getText(), addPatDiagnos.getText(), addPatNote.getText());
+                patientList.getItems().add(newPatient);
+                da.createPatient(newPatient);
+                log.info("Add new patient with id="+newPatient.getId());
+                addPatSurname.clear();
+                addPatName.clear();
+                addPatMiddle.clear();
+                addPatDiagnos.clear();
+                addPatNote.clear();
 
+                getAlert("Добавление", "Пациент успешно добавлен!");
             }
+            catch (EmptyPersonException e) {e.getAlert();}
+
         });
 
-        deleteDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                int index = doctorList.getSelectionModel().getSelectedIndex();
-                da.deleteDoctor(doctorList.getItems().get(index));
-                doctorList.getItems().remove(index);
-                doctorList.refresh();
-                getAlert("Доктор", "Выбранный доктор успешно исключен из таблицы");
-            }
+        deleteDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            int index = doctorList.getSelectionModel().getSelectedIndex();
+            log.info("Delete  doctor with id="+doctorList.getItems().get(index).getId());
+            da.deleteDoctor(doctorList.getItems().get(index));
+            doctorList.getItems().remove(index);
+            doctorList.refresh();
+            getAlert("Доктор", "Выбранный доктор успешно исключен из таблицы");
         });
-        deletePatient.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                int index = patientList.getSelectionModel().getSelectedIndex();
-                da.deletePatient(patientList.getItems().get(index));
-                patientList.getItems().remove(index);
-                patientList.refresh();
-                getAlert("Пациент", "Выбранный пациент успешно исключен из таблицы");
-            }
+        deletePatient.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            int index = patientList.getSelectionModel().getSelectedIndex();
+            da.deleteDoctor(doctorList.getItems().get(index));
+            log.info("Delete patient with id="+patientList.getItems().get(index).getId());
+            da.deletePatient(patientList.getItems().get(index));
+            patientList.getItems().remove(index);
+            patientList.refresh();
+            getAlert("Пациент", "Выбранный пациент успешно исключен из таблицы");
         });
 
         moreDocInfo.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -176,6 +166,7 @@ public class Controller {
                 PdfReport report = new PdfReport(doctorList.getItems(), null, "../DataSrc/DoctorDataPdf");
                 try{ report.pdfSave();}
                 catch (NoFileException ex) {ex.getAlertMessage();}
+                log.info("Create PDF-report with doctors");
                 getAlert("PDF", "Отчет построен");
             }
         });
@@ -185,6 +176,7 @@ public class Controller {
                 PdfReport report = new PdfReport(null, patientList.getItems(), "../DataSrc/PatientDataPdf");
                 try{ report.pdfSave();}
                 catch (NoFileException ex) {ex.getAlertMessage();}
+                log.info("Create PDF-report with patient");
                 getAlert("PDF", "Отчет построен");
             }
         });
@@ -194,6 +186,7 @@ public class Controller {
             public void handle(MouseEvent mouseEvent) {
                 HtmlReport report = new HtmlReport(doctorList.getItems(), null, "../DataSrc/DoctorDataHtml");
                 report.saveHtml();
+                log.info("Create HTML-report with doctors");
                 getAlert("HTML", "Отчет построен");
             }
         });
@@ -202,6 +195,7 @@ public class Controller {
             public void handle(MouseEvent mouseEvent) {
                 HtmlReport report = new HtmlReport(null, patientList.getItems(), "../DataSrc/PatientDataHtml");
                 report.saveHtml();
+                log.info("Create HTML-report with patients");
                 getAlert("HTML", "Отчет построен");
             }
         });
@@ -316,7 +310,8 @@ public class Controller {
             if(addDocSurname.getText().isEmpty() || addDocName.getText().isEmpty() || addDocMiddle.getText().isEmpty() ||
                     addDocSpecialty.getText().isEmpty() || addDocNote.getText().isEmpty())
                 throw new EmptyPersonException("Доктор содержит пустые поля");
-            int newId = doctorList.getItems().size()+1;
+            int lastIndex = doctorList.getItems().size()-1;
+            int newId =  doctorList.getItems().get(lastIndex).getId()+1;
             Doctor newDoctor = new Doctor(newId, addDocSurname.getText(), addDocName.getText(),
                     addDocMiddle.getText(), addDocSpecialty.getText(), addDocNote.getText());
             doctorList.getItems().add(newDoctor);
@@ -327,18 +322,11 @@ public class Controller {
             addDocMiddle.clear();
             addDocSpecialty.clear();
             addDocNote.clear();
+            log.info("Add doctor with id="+newDoctor.getId());
+
             getAlert("Врач", "Врач успешно добавлен!");
         }
         catch (EmptyPersonException e) {e.getAlert();}
     }
 
-    private static String getFileExtension(File file) {
-        String fileName = file.getName();
-        // если в имени файла есть точка и она не является первым символом в названии файла
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-            // то вырезаем все знаки после последней точки в названии файла, то есть ХХХХХ.txt -> txt
-            return fileName.substring(fileName.lastIndexOf(".")+1);
-            // в противном случае возвращаем заглушку, то есть расширение не найдено
-        else return "";
-    }
 }

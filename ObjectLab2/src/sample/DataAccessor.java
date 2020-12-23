@@ -37,7 +37,6 @@ public class DataAccessor {
             Statement st = connection.createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM doctor ORDER BY id");
             while(res.next()){
-               // System.out.println(res.getString("id")+res.getString("surname"));
                 Doctor newDoc = new Doctor(Integer.parseInt(res.getString("id")), res.getString("surname"),
                         res.getString("name"), res.getString("middlename"),
                         res.getString("specialty"), res.getString("note"));
