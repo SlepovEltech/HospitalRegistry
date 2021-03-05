@@ -5,52 +5,60 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #FF5722 #FF5722;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.PersonCard">
-   <children>
-      <Label layoutX="280.0" layoutY="1.0" text="Личная карточка" textFill="#f5f5f5">
-         <font>
-            <Font name="Oswald" size="40.0" />
-         </font>
-      </Label>
-      <AnchorPane layoutY="50.0" prefHeight="320.0" prefWidth="800.0 " style="-fx-background-color: #FFFFFF;">
-         <HBox prefHeight="320.0" prefWidth="800.0">
-            <VBox fx:id="info" prefHeight="320.0" prefWidth="575.0">
-               <Label fx:id="docFullName" text="hello" textAlignment="CENTER">
-                  <font>
-                     <Font name="Oswald" size="20.0" />
-                  </font></Label>
-               <Label fx:id="docSpecialty" text="specialty" textAlignment="CENTER">
-                  <font>
-                     <Font name="Oswald" size="20.0" />
-                  </font></Label>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="800.0" style="-fx-background-color: #FF5722 #FF5722;"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.controller.PersonCard">
+   <Label layoutX="280.0" layoutY="1.0" text="Личная карточка" textFill="#f5f5f5">
+      <font>
+         <Font name="Oswald" size="40.0"/>
+      </font>
+   </Label>
+   <AnchorPane layoutY="50.0" prefHeight="320.0" prefWidth="800.0 " style="-fx-background-color: #FFFFFF;">
+      <HBox prefHeight="320.0" prefWidth="800.0">
+         <VBox fx:id="info" prefHeight="320.0" prefWidth="575.0">
+            <Label fx:id="docFullName" text="hello" textAlignment="CENTER">
+               <font>
+                  <Font name="Oswald" size="20.0"/>
+               </font>
+            </Label>
+            <Label fx:id="docSpecialty" text="specialty" textAlignment="CENTER">
+               <font>
+                  <Font name="Oswald" size="20.0"/>
+               </font>
+            </Label>
 
-               <Label fx:id="docNote" text="note" textAlignment="CENTER">
-                  <font>
-                     <Font name="Oswald" size="20.0" />
-                  </font></Label>
+            <Label fx:id="docNote" text="note" textAlignment="CENTER">
+               <font>
+                  <Font name="Oswald" size="20.0"/>
+               </font>
+            </Label>
 
-                  <TableView fx:id="meetingTable" maxHeight="200" maxWidth="500" prefHeight="180.0" prefWidth="500.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
-                     <columns>
-                        <TableColumn id="date" fx:id="patientFullName" prefWidth="250" text="Пациент" />
-                        <TableColumn id="date" fx:id="diagnos" prefWidth="100" text="Диагноз" />
-                        <TableColumn id="date" fx:id="date" prefWidth="150" text="Дата" />
-                     </columns>
-                  </TableView>
-               <HBox prefHeight="27.0" prefWidth="498.0">
-                  <ChoiceBox fx:id="patientChoiceBox" prefHeight="27.0" prefWidth="204.0" />
-                  <DatePicker fx:id="datePicker" maxWidth="165.0" prefHeight="27.0" prefWidth="165.0" />
-                  <TextField fx:id="timePicker" maxWidth="130.0" prefHeight="27.0" prefWidth="130.0" text="Время ЧЧ:ММ" />
-               </HBox>
-               <HBox>
-                  <Button fx:id="addMeeting" prefHeight="27.0" prefWidth="206.0" text="Назначить новый прием" />
-                  <Button fx:id="deleteMeeting" alignment="CENTER" prefHeight="27.0" prefWidth="165.0" text="Удалить прием" />
-               </HBox>
-            </VBox>
-            <VBox>
-               <ImageView fx:id="avatar" fitHeight="200.0" fitWidth="200.0" />
-            </VBox>
-         </HBox>
-      </AnchorPane>
+            <TableView fx:id="meetingTable" maxHeight="200" maxWidth="500" prefHeight="180.0" prefWidth="500.0"
+                       AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="41.0">
+               <columns>
+                  <TableColumn id="date" fx:id="patientFullName" prefWidth="250" text="Пациент"/>
+                  <TableColumn id="date" fx:id="diagnos" prefWidth="100" text="Диагноз"/>
+                  <TableColumn id="date" fx:id="date" prefWidth="150" text="Дата"/>
+               </columns>
+            </TableView>
+            <HBox prefHeight="27.0" prefWidth="498.0">
+               <ChoiceBox fx:id="patientChoiceBox" prefHeight="27.0" prefWidth="204.0"/>
+               <DatePicker fx:id="datePicker" maxWidth="165.0" prefHeight="27.0" prefWidth="165.0"/>
+               <TextField fx:id="timePicker" maxWidth="130.0" prefHeight="27.0" prefWidth="130.0"
+                          promptText="Время ЧЧ:ММ"/>
+            </HBox>
+            <HBox>
+               <Button fx:id="addMeeting" prefHeight="27.0" prefWidth="206.0" text="Назначить новый прием"/>
+               <Button fx:id="deleteMeeting" alignment="CENTER" prefHeight="27.0" prefWidth="165.0"
+                       text="Удалить прием"/>
+            </HBox>
+         </VBox>
+         <VBox>
+            <ImageView fx:id="avatar" fitHeight="200.0" fitWidth="200.0"/>
+         </VBox>
+      </HBox>
+   </AnchorPane>
 
-   </children>
 </AnchorPane>

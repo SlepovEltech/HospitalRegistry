@@ -4,8 +4,8 @@ import javafx.scene.control.Alert;
 
 public class EmptyPersonException extends  Exception{
     public EmptyPersonException() { super(); }
-    public EmptyPersonException(String personType) {
-        super(personType+" содержит пустые поля");
+    public EmptyPersonException(String message) {
+        super(message);
     }
     public void getAlert()
     {

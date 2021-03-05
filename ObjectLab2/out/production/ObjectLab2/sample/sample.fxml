@@ -27,13 +27,11 @@
                               <TableColumn fx:id="docNote" prefWidth="240.74462890625" text="Примечание" />
                           </columns>
                         </TableView>
-                        <ButtonBar layoutX="0" prefHeight="40.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+                        <ButtonBar layoutX="0" prefHeight="40.0" prefWidth="365.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="535.0" AnchorPane.topAnchor="0.0">
                           <buttons>
-                              <Button id="addDoctor" fx:id="loadDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Загрузить из файла" />
-                              <Button fx:id="saveDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="188.0" text="Сохранить изменения" />
-                              <Button id="addDoctor" fx:id="deleteDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Удалить врача" />
-                              <Button id="makePdfDoctor" fx:id="makePdfDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
-                              <Button id="makeHtmlDoctor" fx:id="makeHtmlDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
+                              <Button fx:id="deleteDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Удалить врача" />
+                              <Button fx:id="makePdfDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
+                              <Button fx:id="makeHtmlDoctor" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
                           </buttons>
                         </ButtonBar>
                         <Button id="addDoctor" fx:id="addDoctor" contentDisplay="CENTER" layoutX="786.0" layoutY="445.0" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Добавить врача" AnchorPane.topAnchor="445.0" />
@@ -61,13 +59,11 @@
                               <TableColumn fx:id="patientNote" prefWidth="240.35983276367188" text="Примечание" />
                            </columns>
                         </TableView>
-                        <ButtonBar layoutX="1.0" prefHeight="40.0" prefWidth="553.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="359.0">
+                         <ButtonBar layoutX="0" prefHeight="40.0" prefWidth="425.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="475.0" AnchorPane.topAnchor="0.0">
                            <buttons>
-                              <Button fx:id="loadPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Загрузить из файла" />
-                              <Button fx:id="savePatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="188.0" text="Сохранить изменения" />
-                              <Button fx:id="deletePatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Удалить пациента" />
-                               <Button id="makePdfPatient" fx:id="makePdfPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
-                               <Button id="makeHtmlPatient" fx:id="makeHtmlPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
+                              <Button fx:id="deletePatient" contentDisplay="CENTER" maxWidth="288.0" minWidth="49.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="288.0" text="Удалить пациента" />
+                               <Button fx:id="makePdfPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать PDF" />
+                               <Button fx:id="makeHtmlPatient" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Сделать HTML" />
                            </buttons>
                         </ButtonBar>
                         <Button fx:id="addPatient" contentDisplay="CENTER" layoutX="761.0" layoutY="446.0" minWidth="0.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="139.0" text="Добавить пациента" />

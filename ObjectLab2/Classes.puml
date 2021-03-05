@@ -1,0 +1,40 @@
+@startuml
+
+class PersonCard {
+
+
+    private Doctor doctor;
+    private Label docFullName;
+    @FXML private Label docSpecialty;
+    @FXML private Label docNote;
+
+    @FXML private TableView<Meeting> meetingTable;
+
+    @FXML private TableColumn<Meeting, String> diagnos;
+    @FXML private TableColumn<Meeting, String> patientFullName;
+    @FXML private TableColumn<Meeting, String> date;
+
+    @FXML private Button addMeeting;
+    @FXML private DatePicker datePicker;
+    @FXML private TextField timePicker;
+    @FXML private ChoiceBox<Patient> patientChoiceBox;
+
+    @FXML private Button deleteMeeting;
+
+    @FXML private VBox info;
+
+    @FXML
+    void initialize() {
+        initializeTable();
+
+    }
+    public void dataTransfer(Doctor doctor, ObservableList<Patient> patientList, ObservableList<Meeting> meetingList) {
+    }
+
+    public void initializeTable(){
+    }
+
+}
+
+
+@enduml

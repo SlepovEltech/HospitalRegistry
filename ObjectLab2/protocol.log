@@ -38,3 +38,25 @@
 2020-11-28 19:19:35,789 INFO  class:48 - Thread Editer end
 2020-11-28 19:19:35,790 INFO  class:51 - Thread Reporer start
 2020-11-28 19:19:35,794 INFO  class:54 - Thread Reporter end. HTML-report made
+2020-12-19 19:27:31,468 INFO  class:110 - Delete  doctor with id=34
+2020-12-19 19:27:37,474 INFO  class:167 - Create PDF-report with doctors
+2020-12-19 19:27:39,079 INFO  class:187 - Create HTML-report with doctors
+2020-12-20 12:19:31,293 INFO  class:187 - Create HTML-report with doctors
+2020-12-20 12:20:14,844 INFO  class:73 - Add new meeting with id=3
+2020-12-21 17:12:27,555 INFO  class:322 - Add doctor with id=35
+2020-12-21 17:21:24,737 INFO  class:167 - Create PDF-report with doctors
+2020-12-21 17:23:09,162 INFO  class:187 - Create HTML-report with doctors
+2020-12-21 17:30:15,702 INFO  class:322 - Add doctor with id=35
+2020-12-21 17:50:05,813 INFO  class:323 - Add doctor with id=36
+2020-12-21 20:33:09,768 INFO  class:73 - Add new meeting with id=3
+2020-12-21 20:34:57,894 INFO  class:169 - Create PDF-report with doctors
+2020-12-21 20:35:03,558 INFO  class:189 - Create HTML-report with doctors
+2020-12-21 20:35:11,764 INFO  class:112 - Delete  doctor with id=35
+2020-12-21 20:39:28,152 INFO  class:73 - Add new meeting with id=2
+2020-12-21 20:50:51,097 INFO  class:97 - Add new patient with id=21
+2020-12-21 20:51:47,232 INFO  class:73 - Add new meeting with id=1
+2020-12-21 20:53:11,021 INFO  class:169 - Create PDF-report with doctors
+2020-12-21 20:53:12,876 INFO  class:189 - Create HTML-report with doctors
+2020-12-21 20:59:00,100 INFO  class:73 - Add new meeting with id=2
+2020-12-26 22:10:36,594 INFO  class:73 - Add new meeting with id=3
+2020-12-26 22:10:47,413 INFO  class:73 - Add new meeting with id=3
